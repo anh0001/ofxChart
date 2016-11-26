@@ -1,10 +1,12 @@
 /* Copyright (C) 2013 Sergey Yershov*/
 
 
-#ifndef __ofxChart__ofxChartDataPoint__
-#define __ofxChart__ofxChartDataPoint__
+#pragma once
 
-#include "ofmain.h"
+//#ifndef __ofxChart__ofxChartDataPoint__
+//#define __ofxChart__ofxChartDataPoint__
+
+#include "ofMain.h"
 #include "Poco/DateTime.h"
 #include "ofxChartVec3d.h"
 #include "ofxChartUtils.h"
@@ -218,4 +220,4 @@ typedef ofxChartDataPointXYZ_<float, float, float> ofxChartDataPointFloat3d;
 typedef ofxChartDataPointXYZ_<int, int, int> ofxChartDataPointInt3d;
 
 
-#endif /* defined(__ofxChart__ofxChartDataPoint__) */
+//#endif /* defined(__ofxChart__ofxChartDataPoint__) */

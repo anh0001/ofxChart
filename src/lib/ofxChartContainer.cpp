@@ -9,14 +9,14 @@ static double calculateAbsolutePosition(float containerPoint, float containerSiz
     
     //find percentage
     double range = maxData - minData;
-    if(isnan(range)) return 0;
+    if(std::isnan(range)) return 0;
     offset = (offset * range)/100;
     
     double positionPerc =  (100*containerPoint)/containerSize;
     double dataPosition = (range*positionPerc)/100;
     double scaled =  minData + (dataPosition/scale);
     double offsetted = scaled - offset;
-    return (isnan(offsetted)?0: offsetted);
+    return (std::isnan(offsetted)?0: offsetted);
 }
 
 

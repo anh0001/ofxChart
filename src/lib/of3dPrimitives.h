@@ -15,6 +15,7 @@
 
 #include "ofGraphics.h"
 #include "ofVectorMath.h"
+#include "ofMesh.h"
 
 bool ofGetPrimitiveGenerateTexCoords();
 void ofEnablePrimitiveGenerateTexCoords();

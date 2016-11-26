@@ -7,12 +7,11 @@
 #include "of3dPrimitives.h"
 
 
-
 ////////////                BAR RANGE 2D
 
 
 template<class _X, class _Y>
-class ofxChartSeriesBarRange2d :  public ofxChartSeriesBaseRange2d<_X, _Y >
+class ofxChartSeriesBarRange2d : public ofxChartSeriesBaseRange2d<_X, _Y >
 {
 public:
     
@@ -31,6 +30,7 @@ public:
     }
     
     void draw();
+    void drawThresholdLines(int index0, int index1);
     
 };
 
@@ -56,12 +56,10 @@ void  ofxChartSeriesBarRange2d<_X,_Y>::draw()
     {
         ofxChartVec3d fp = dp[i].getDoubleValue();
         ofVec3f cp = this->axisContainer->getContainerPoint(fp,i);
-        
+
         ofxChartVec3d fp2 = dp[i].getDoubleValue2();
         ofVec3f cp2 = this->axisContainer->getContainerPoint(fp2,i);
-        
-        
-        
+
         //OPTIMIZATION: DO NOT DRAW INVISIBLE RANGE
         if(!ofxChartRect3d(cp, cp2).intersects(containerRect))
             continue;
@@ -69,7 +67,6 @@ void  ofxChartSeriesBarRange2d<_X,_Y>::draw()
         float distance = cp.distance(cp2);
         ofPushMatrix();
         rotateMatP2(cp, cp2);
-        
         
         float calculatedPointSize;
         if(cp.x == cp2.x)
@@ -82,6 +79,65 @@ void  ofxChartSeriesBarRange2d<_X,_Y>::draw()
         ofRect(0, 0,  calculatedPointSize, distance);
         ofPopMatrix();
         
+    }
+    ofPopStyle();
+}
+
+
+template<class _X, class _Y>
+void  ofxChartSeriesBarRange2d<_X,_Y>::drawThresholdLines(int index0, int index1)
+{
+    vector< ofxChartDataPointRange2d<_X, _Y> > dp = this->getDataPoints();
+
+    ofPushStyle();
+    //_BaseColor.a = 150;
+    ofFill();
+
+    //TODO: check if custom color has been initialized
+
+    ofxChartVec3d cs = this->axisContainer->getDataPointSize();
+
+    //cout << "x=" << cs.x << " Y=" << cs.y << " Z=" << cs.z << endl;
+
+    //float pointSize = 20;//TODO: MIN(MIN(cs.x, cs.y), cs.z);
+
+    ofxChartRect3d containerRect = this->axisContainer->getDataRectangle();
+    int dps = dp.size();
+    //cout << "dpsize=" << dps << endl;
+
+    for(int i=0; i<dps; i++)  // Iterate through data points
+    {
+    	if (i==index0 || i==index1)
+    	{
+    		ofxChartVec3d fp = dp[i].getDoubleValue();
+    		ofVec3f cp = this->axisContainer->getContainerPoint(fp,i);
+
+    		//ofxChartVec3d fp2 = dp[i].getDoubleValue2();
+    		//ofVec3f cp2 = this->axisContainer->getContainerPoint(fp2,i);
+
+    		//OPTIMIZATION: DO NOT DRAW INVISIBLE RANGE
+    		//if(!ofxChartRect3d(cp, cp2).intersects(containerRect))
+    		//	continue;
+
+    		//float distance = cp.distance(cp2);
+
+    		ofPushMatrix();
+    		ofTranslate(cp.x, cp.y, cp.z);
+    		//rotateMatP2(cp, cp2);
+
+    		//cout << "cp" << "x=" << cp.x << " Y=" << cp.y << " Z=" << cp.z << endl;
+    		//cout << "cp2" << "x=" << cp2.x << " Y=" << cp2.y << " Z=" << cp2.z << endl;
+
+			if (i==index0)
+				ofSetColor(ofColor(10,255,10));
+			else
+				ofSetColor(ofColor(255,10,10));
+
+			ofRect(0, 0,  2, 110);
+
+			ofPopMatrix();
+		}
+
     }
     ofPopStyle();
 }
